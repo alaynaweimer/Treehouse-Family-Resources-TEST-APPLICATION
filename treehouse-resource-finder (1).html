@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treehouse Family Resource Finder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest: #1a3a2e;
+            --canopy: #2d5e45;
+            --leaf: #4a9468;
+            --moss: #7dc49a;
+            --sky: #e8f5ef;
+            --bark: #6b4c35;
+            --sun: #f4b942;
+            --warm: #fdf6ec;
+            --white: #ffffff;
+            --text: #1a2820;
+            --muted: #5a7060;
+            --border: #c8e0d0;
+            --shadow: rgba(26,58,46,0.12);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--sky);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ===== HEADER ===== */
+        .site-header {
+            background: var(--forest);
+            color: var(--white);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+        }
+
+        .header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--leaf);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6em;
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            line-height: 1.2;
+        }
+
+        .logo-text strong {
+            display: block;
+            font-family: 'Fraunces', serif;
+            font-size: 1.25em;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .logo-text span {
+            font-size: 0.8em;
+            color: var(--moss);
+            font-weight: 300;
+        }
+
+        .header-tag {
+            background: var(--leaf);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: linear-gradient(160deg, var(--canopy) 0%, var(--forest) 100%);
+            color: white;
+            padding: 56px 24px 48px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234a9468' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .hero-content {
+            position: relative;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(2em, 5vw, 3.2em);
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--sun);
+        }
+
+        .hero p {
+            font-size: 1.1em;
+            color: var(--moss);
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        /* ===== STEP WIZARD ===== */
+        .wizard-wrap {
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        .step-pills {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+        }
+
+        .step-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.85em;
+            font-weight: 600;
+            transition: all 0.2s;
+            cursor: default;
+        }
+
+        .step-pill.done {
+            background: var(--leaf);
+            color: white;
+        }
+
+        .step-pill.active {
+            background: var(--sun);
+            color: var(--forest);
+        }
+
+        .step-pill.future {
+            background: rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.6);
+        }
+
+        .step-pill .pill-num {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            background: rgba(255,255,255,0.25);
+        }
+
+        /* ===== INTAKE FORM ===== */
+        .intake-card {
+            background: white;
+            border-radius: 20px;
+            padding: 36px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+            text-align: left;
+        }
+
+        .intake-card h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.6em;
+            color: var(--forest);
+            margin-bottom: 8px;
+        }
+
+        .intake-card .subtitle {
+            color: var(--muted);
+            font-size: 0.95em;
+            margin-bottom: 28px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-grid.single { grid-template-columns: 1fr; }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .field.full { grid-column: 1 / -1; }
+
+        .field label {
+            font-size: 0.88em;
+            font-weight: 600;
+            color: var(--forest);
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        .field input,
+        .field select,
+        .field textarea {
+            padding: 12px 14px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.95em;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text);
+            background: var(--warm);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            outline: none;
+            border-color: var(--leaf);
+            box-shadow: 0 0 0 3px rgba(74,148,104,0.15);
+            background: white;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--warm);
+        }
+
+        .checkbox-item:hover {
+            border-color: var(--leaf);
+            background: var(--sky);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--leaf);
+            padding: 0;
+            border: none;
+            background: transparent;
+        }
+
+        .checkbox-item.checked {
+            border-color: var(--leaf);
+            background: #e8f5ef;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 400;
+            color: var(--text);
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--leaf);
+            color: white;
+            box-shadow: 0 4px 14px rgba(74,148,104,0.35);
+        }
+
+        .btn-primary:hover {
+            background: var(--canopy);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74,148,104,0.45);
+        }
+
+        .btn-sun {
+            background: var(--sun);
+            color: var(--forest);
+            box-shadow: 0 4px 14px rgba(244,185,66,0.35);
+        }
+
+        .btn-sun:hover {
+            background: #e5aa30;
+            transform: translateY(-2px);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--muted);
+            border: 2px solid var(--border);
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--leaf);
+            color: var(--leaf);
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.88em;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 2px solid var(--border);
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        /* ===== FILTER BAR ===== */
+        .filter-bar {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 28px;
+            box-shadow: 0 2px 16px var(--shadow);
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .filter-group label {
+            display: block;
+            font-size: 0.8em;
+            font-weight: 600;
+            color: var(--forest);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.92em;
+            color: var(--text);
+            background: var(--warm);
+        }
+
+        .filter-group select:focus,
+        .filter-group input:focus {
+            outline: none;
+            border-color: var(--leaf);
+        }
+
+        /* ===== RESULTS LAYOUT ===== */
+        .results-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .results-title {
+            font-family: 'Fraunces', serif;
+            font-size: 1.6em;
+            color: var(--forest);
+        }
+
+        .results-count {
+            background: var(--leaf);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .category-section {
+            margin-bottom: 40px;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            background: var(--forest);
+            color: white;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .category-header .cat-icon { font-size: 1.3em; }
+
+        .category-header h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.15em;
+            font-weight: 600;
+        }
+
+        .category-header .cat-count {
+            margin-left: auto;
+            background: rgba(255,255,255,0.2);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+        }
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2px;
+            background: var(--border);
+            border-radius: 0 0 12px 12px;
+            overflow: hidden;
+        }
+
+        /* ===== RESOURCE CARD ===== */
+        .resource-card {
+            background: white;
+            padding: 22px;
+            transition: all 0.2s;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .resource-card:hover {
+            background: var(--sky);
+            z-index: 1;
+        }
+
+        .resource-card.highlighted {
+            background: #e8f5ef;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 0.98em;
+            color: var(--forest);
+            line-height: 1.3;
+            flex: 1;
+        }
+
+        .card-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+        }
+
+        .badge-match { background: #dcfce7; color: #14532d; }
+        .badge-local { background: #fef9c3; color: #713f12; }
+        .badge-national { background: #dbeafe; color: #1e3a8a; }
+        .badge-deadline { background: #fee2e2; color: #7f1d1d; }
+        .badge-noapp { background: #f0fdf4; color: #166534; border: 1px solid #86efac; }
+
+        .card-desc {
+            font-size: 0.88em;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .card-link {
+            font-size: 0.82em;
+            font-weight: 600;
+            color: var(--leaf);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.2s;
+        }
+
+        .card-link:hover { color: var(--canopy); }
+
+        .apply-btn {
+            padding: 6px 14px;
+            background: var(--leaf);
+            color: white;
+            border-radius: 8px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .apply-btn:hover {
+            background: var(--canopy);
+            transform: translateY(-1px);
+        }
+
+        .apply-btn.sun {
+            background: var(--sun);
+            color: var(--forest);
+        }
+
+        .apply-btn.sun:hover { background: #e5aa30; }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--muted);
+        }
+
+        .empty-state .empty-icon { font-size: 3em; margin-bottom: 14px; }
+        .empty-state h3 { font-family: 'Fraunces', serif; font-size: 1.4em; color: var(--forest); margin-bottom: 8px; }
+
+        /* ===== MODAL ===== */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-backdrop.open { display: flex; }
+
+        .modal {
+            background: white;
+            border-radius: 20px;
+            max-width: 680px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: var(--forest);
+            color: white;
+            padding: 28px 32px 24px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .modal-header h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5em;
+            font-weight: 700;
+            line-height: 1.2;
+            padding-right: 20px;
+        }
+
+        .modal-close {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover { background: rgba(255,255,255,0.25); }
+
+        .modal-body {
+            padding: 28px 32px;
+        }
+
+        .modal-body .detail-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 14px;
+            font-size: 0.95em;
+        }
+
+        .modal-body .detail-row .dl { font-weight: 600; color: var(--forest); min-width: 120px; }
+        .modal-body .detail-row .dv { color: var(--text); }
+
+        .modal-body p {
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            padding: 0 32px 28px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* ===== PEER SUPPORT BANNER ===== */
+        .peer-banner {
+            background: linear-gradient(135deg, var(--sun) 0%, #f4c96e 100%);
+            border-radius: 16px;
+            padding: 24px 28px;
+            margin-bottom: 28px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(244,185,66,0.3);
+        }
+
+        .peer-banner .banner-icon {
+            font-size: 2.5em;
+            flex-shrink: 0;
+        }
+
+        .peer-banner h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.2em;
+            color: var(--forest);
+            margin-bottom: 4px;
+        }
+
+        .peer-banner p {
+            font-size: 0.9em;
+            color: #4a3a1a;
+            line-height: 1.5;
+        }
+
+        .peer-banner .banner-action { margin-left: auto; flex-shrink: 0; }
+
+        /* ===== FAMILY PROFILE CHIP ===== */
+        .profile-chip-bar {
+            background: var(--forest);
+            color: white;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .profile-chip-bar .label { font-size: 0.8em; color: var(--moss); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.12);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .chip .chip-x {
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+            margin-left: 2px;
+        }
+
+        .chip .chip-x:hover { opacity: 1; }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            background: var(--forest);
+            color: var(--moss);
+            text-align: center;
+            padding: 28px;
+            font-size: 0.85em;
+            line-height: 1.7;
+        }
+
+        .site-footer a { color: var(--moss); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 700px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .form-grid .field.full { grid-column: 1; }
+            .resource-grid { grid-template-columns: 1fr; }
+            .peer-banner { flex-direction: column; }
+            .peer-banner .banner-action { margin-left: 0; }
+            .modal-header, .modal-body, .modal-footer { padding-left: 20px; padding-right: 20px; }
+            .intake-card { padding: 24px 20px; }
+        }
+
+        @media print {
+            .site-header, .hero, .filter-bar, .btn, .apply-btn, .site-footer { display: none !important; }
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-in { animation: fadeUp 0.4s ease both; }
+
+        .category-section:nth-child(1) { animation-delay: 0.05s; }
+        .category-section:nth-child(2) { animation-delay: 0.1s; }
+        .category-section:nth-child(3) { animation-delay: 0.15s; }
+        .category-section:nth-child(4) { animation-delay: 0.2s; }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+    <div class="header-inner">
+        <div class="logo-area">
+            <div class="logo-icon">🌳</div>
+            <div class="logo-text">
+                <strong>Treehouse Family Resources</strong>
+                <span>Central Oregon Support Finder</span>
+            </div>
+        </div>
+        <span class="header-tag">Free Community Tool</span>
+    </div>
+</header>
+
+<!-- HERO + INTAKE -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Find the right <em>support</em><br>for your family</h1>
+        <p>Tell us a little about your child and situation — we'll match you with scholarships, grants, camps, and local resources that fit your needs.</p>
+
+        <div class="step-pills">
+            <div class="step-pill active" id="pill-1"><span class="pill-num">1</span> About Your Child</div>
+            <div class="step-pill future" id="pill-2"><span class="pill-num">2</span> View Matches</div>
+            <div class="step-pill future" id="pill-3"><span class="pill-num">3</span> Get Help Applying</div>
+        </div>
+
+        <div class="wizard-wrap">
+            <div class="intake-card" id="intakeCard">
+                <h2>Tell us about your family</h2>
+                <p class="subtitle">We'll use this to show you the most relevant resources. Nothing is sent anywhere — it stays in your browser.</p>
+
+                <div class="form-grid">
+                    <div class="field">
+                        <label>Child's Age</label>
+                        <input type="number" id="childAge" placeholder="e.g. 8" min="0" max="26">
+                    </div>
+                    <div class="field">
+                        <label>City / Area</label>
+                        <select id="userCity">
+                            <option value="">Select your area</option>
+                            <option value="Bend">Bend</option>
+                            <option value="Redmond">Redmond</option>
+                            <option value="Sisters">Sisters</option>
+                            <option value="Prineville">Prineville</option>
+                            <option value="La Pine">La Pine</option>
+                            <option value="Madras">Madras</option>
+                            <option value="Sunriver">Sunriver</option>
+                            <option value="Other Central Oregon">Other Central Oregon</option>
+                        </select>
+                    </div>
+                    <div class="field full">
+                        <label>What types of support are you looking for? (Select all that apply)</label>
+                        <div class="checkbox-group" id="needsCheckboxes">
+                            <div class="checkbox-item" onclick="toggleCheck(this)">
+                                <input type="checkbox" value="financial"> <label>💰 Financial assistance / grants</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheck(this)">
+                                <input type="checkbox" value="camps"> <label>🏕️ Summer camps & activities</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheck(this)">
+                                <input type="checkbox" value="equipment"> <label>♿ Equipment & adaptive gear</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheck(this)">
+                                <input type="checkbox" value="vehicle"> <label>🚐 Vehicle & home modifications</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheck(this)">
+                                <input type="checkbox" value="food"> <label>🍎 Food, shelter & basic needs</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheck(this)">
+                                <input type="checkbox" value="community"> <label>🤝 Community giving & local grants</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheck(this)">
+                                <input type="checkbox" value="seasonal"> <label>🎁 Seasonal assistance (holidays)</label>
+                            </div>
+                            <div class="checkbox-item" onclick="toggleCheck(this)">
+                                <input type="checkbox" value="sports"> <label>⭐ Sports / celebrity wish programs</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field full">
+                        <label>Does your child have a specific diagnosis or condition? (optional — helps us narrow results)</label>
+                        <select id="diagnosisType">
+                            <option value="">Prefer not to say / general</option>
+                            <option value="behavior">Behavioral / developmental</option>
+                            <option value="epilepsy">Epilepsy / seizure disorder</option>
+                            <option value="rett">Rett Syndrome</option>
+                            <option value="wheelchair">Wheelchair user / mobility</option>
+                            <option value="autism">Autism spectrum</option>
+                            <option value="other">Other / multiple</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-primary" onclick="runSearch()">
+                        🔍 Find My Resources
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROFILE CHIPS (shown after search) -->
+<div class="profile-chip-bar" id="profileBar" style="display:none;">
+    <span class="label">Showing results for:</span>
+    <span id="profileChips"></span>
+    <button class="btn btn-ghost btn-sm" onclick="resetSearch()" style="margin-left:auto; color: var(--moss); border-color: rgba(255,255,255,0.2); font-size:0.8em;">↩ Start Over</button>
+</div>
+
+<!-- MAIN RESULTS -->
+<main class="main-wrap" id="mainResults" style="display:none;">
+
+    <!-- Peer Support Banner -->
+    <div class="peer-banner">
+        <div class="banner-icon">💬</div>
+        <div>
+            <h3>Need help with the paperwork?</h3>
+            <p>Our peer support specialists can help you fill out applications. Just call or text us and we'll work through it together — or you can use the "Help Me Apply" button on any resource below.</p>
+        </div>
+        <div class="banner-action">
+            <a href="tel:+15415550000" class="btn btn-sun btn-sm">📞 Call Peer Support</a>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+        <div class="filter-group">
+            <label>Category</label>
+            <select id="filterCategory" onchange="filterResults()">
+                <option value="">All Categories</option>
+                <option value="Financial">Financial</option>
+                <option value="Camps & Activities">Camps & Activities</option>
+                <option value="Equipment">Equipment</option>
+                <option value="Vehicle & Home">Vehicle & Home</option>
+                <option value="Food & Shelter">Food & Shelter</option>
+                <option value="Community Giving">Community Giving</option>
+                <option value="Seasonal">Seasonal</option>
+                <option value="Condition-Specific">Condition-Specific</option>
+                <option value="Sports & Wishes">Sports & Wishes</option>
+                <option value="Accessibility">Accessibility</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Location</label>
+            <select id="filterLocation" onchange="filterResults()">
+                <option value="">All Locations</option>
+                <option value="Local">Local (Central Oregon)</option>
+                <option value="Oregon">Oregon-wide</option>
+                <option value="National">National</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Application Type</label>
+            <select id="filterApp" onchange="filterResults()">
+                <option value="">All</option>
+                <option value="online">Online Application</option>
+                <option value="pdf">PDF / Paper Form</option>
+                <option value="noapp">No Application Needed</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Search</label>
+            <input type="text" id="filterSearch" placeholder="Keyword..." oninput="filterResults()">
+        </div>
+    </div>
+
+    <div class="results-header">
+        <h2 class="results-title">Matching Resources</h2>
+        <span class="results-count" id="resultCount">0 found</span>
+    </div>
+
+    <div id="resultsContainer"></div>
+</main>
+
+<!-- RESOURCE DETAIL MODAL -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="closeModal(event)">
+    <div class="modal" id="modalBox">
+        <div class="modal-header">
+            <h2 id="modalTitle"></h2>
+            <button class="modal-close" onclick="document.getElementById('modalBackdrop').classList.remove('open')">✕</button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+        <div class="modal-footer" id="modalFooter"></div>
+    </div>
+</div>
+
+<footer class="site-footer">
+    <p>🌳 <strong>Treehouse Therapies</strong> — Family Resource Finder</p>
+    <p>This is a free community tool. Resources are updated regularly. Contact your peer support specialist for application help.</p>
+    <p style="margin-top: 8px; font-size: 0.85em;">Built by <a href="#">Ignite Positive Changes LLC</a> for Treehouse Therapies families.</p>
+</footer>
+
+<script>
+// ============================================================
+// RESOURCE DATABASE
+// ============================================================
+// Categories: Financial, Camps & Activities, Equipment, Vehicle & Home,
+//             Food & Shelter, Community Giving, Seasonal, Condition-Specific,
+//             Sports & Wishes, Accessibility
+// Location: Local, Oregon, National
+// AppType: online, pdf, noapp
+// needs: array matching checkbox values (financial, camps, equipment, vehicle, food, community, seasonal, sports)
+// diagnosis: array ("behavior","epilepsy","rett","wheelchair","autism","other","all")
+
+const RESOURCES = [
+    // ─── LOCAL PARKS & REC ───────────────────────────────────────
+    {
+        id: 1,
+        title: "Redmond Parks & Rec Scholarship",
+        org: "Redmond Area Park & Recreation District (RAPRD)",
+        category: "Camps & Activities",
+        location: "Local",
+        city: "Redmond",
+        appType: "pdf",
+        needs: ["camps", "financial"],
+        diagnosis: ["all"],
+        description: "Financial assistance for Redmond Parks & Rec programs, camps, and activities. Covers a portion of registration fees for qualifying families. Great for sports, swim lessons, and summer camps.",
+        url: "https://www.raprd.org",
+        applyUrl: "https://doc-10-2s-apps-viewer.googleusercontent.com/viewer/secure/pdf/r7k291808clnkr6nm6621g6uegbnt4cr/0ukcjqbcffv0q8mbqcbmrn6k1fv2skp4/1775163300000/gmail/09635527768424991343/ACFrOgA3KWDYWcxHNU4xx6g405uU2N6JDYNYVQnjf6Wyg6jKi0NuJUr_VBhpQHLstraHnFxCpQtQ6IM-LOM3_jl-b0DMw34eJ_zBYDZrl4agurcleH3PGcxhWkyC3Ur5MSkUmJIAiK7h2Z5goqnCQ0Dbwete3RuF-80AQmiDzQ==?print=true",
+        notes: "PDF application. Peer support can help fill this out with you.",
+        highlighted: true
+    },
+    {
+        id: 2,
+        title: "Bend Park & Rec Scholarship Program",
+        org: "Bend Parks & Recreation Department",
+        category: "Camps & Activities",
+        location: "Local",
+        city: "Bend",
+        appType: "online",
+        needs: ["camps", "financial"],
+        diagnosis: ["all"],
+        description: "Scholarships for Bend Parks & Rec programs including sports leagues, swim lessons, drop-in fitness, and summer camps. Income-based assistance available.",
+        url: "https://www.bendparksandrec.org",
+        applyUrl: "https://www.bendparksandrec.org",
+        notes: "Apply online or call the district office."
+    },
+    {
+        id: 3,
+        title: "Sisters Park & Rec Scholarship",
+        org: "Sisters Park & Recreation District",
+        category: "Camps & Activities",
+        location: "Local",
+        city: "Sisters",
+        appType: "online",
+        needs: ["camps", "financial"],
+        diagnosis: ["all"],
+        description: "Need-based scholarships for Sisters Parks & Recreation programs and activities.",
+        url: "https://sisterspark.com",
+        applyUrl: "https://sisterspark.com",
+        notes: ""
+    },
+    // ─── SUMMER CAMPS ────────────────────────────────────────────
+    {
+        id: 4,
+        title: "Camp Fire Central Oregon – Financial Assistance",
+        org: "Camp Fire Central Oregon",
+        category: "Camps & Activities",
+        location: "Local",
+        city: "Bend",
+        appType: "online",
+        needs: ["camps", "financial"],
+        diagnosis: ["all"],
+        description: "Financial assistance for Camp Fire programs and summer camps. Camp Fire serves youth of all abilities in Central Oregon.",
+        url: "https://campfirecentral.org",
+        applyUrl: "https://campfirecentral.org",
+        notes: ""
+    },
+    {
+        id: 5,
+        title: "Easter Seals Camp Scholarship",
+        org: "Easter Seals Oregon",
+        category: "Camps & Activities",
+        location: "Oregon",
+        appType: "online",
+        needs: ["camps", "financial"],
+        diagnosis: ["all"],
+        description: "Scholarship funding for Easter Seals camps, which focus on youth with disabilities. Camperships available for qualifying families.",
+        url: "https://www.easterseals.com/oregon",
+        applyUrl: "https://www.easterseals.com/oregon",
+        notes: ""
+    },
+    {
+        id: 6,
+        title: "R.A.D. Camps Scholarship",
+        org: "R.A.D. Camps",
+        category: "Camps & Activities",
+        location: "National",
+        appType: "online",
+        needs: ["camps", "financial"],
+        diagnosis: ["all"],
+        description: "Scholarship program for youth with disabilities attending RAD Camps. Focused on adventure and outdoor experiences.",
+        url: "https://radcamps.org",
+        applyUrl: "https://radcamps.org/scholarship",
+        notes: ""
+    },
+    {
+        id: 7,
+        title: "SeriousFun Children's Network – Camp Finder",
+        org: "SeriousFun / Paul Newman Foundation",
+        category: "Camps & Activities",
+        location: "National",
+        appType: "online",
+        needs: ["camps"],
+        diagnosis: ["all"],
+        description: "Free camps for children with serious illnesses and their families. Search the network to find a camp that fits your child's condition. Camps are fully funded.",
+        url: "https://seriousfunnetwork.org/families/find-camps-programs/",
+        applyUrl: "https://seriousfunnetwork.org/families/find-camps-programs/",
+        notes: "Camps are 100% free to families."
+    },
+    {
+        id: 8,
+        title: "Camp CREATE at Cascades Academy",
+        org: "Cascades Academy",
+        category: "Camps & Activities",
+        location: "Local",
+        city: "Bend",
+        appType: "online",
+        needs: ["camps"],
+        diagnosis: ["all"],
+        description: "Arts and creativity summer camps for youth in Central Oregon.",
+        url: "https://www.cascadesacademy.org",
+        applyUrl: "https://www.cascadesacademy.org",
+        notes: ""
+    },
+    {
+        id: 9,
+        title: "All Sports Camp – Cascade Indoor Sports",
+        org: "Cascade Indoor Sports",
+        category: "Camps & Activities",
+        location: "Local",
+        city: "Bend",
+        appType: "online",
+        needs: ["camps"],
+        diagnosis: ["all"],
+        description: "Multi-sport summer camps for youth. Indoor facility in Bend.",
+        url: "https://www.cascadeindoorsports.com",
+        applyUrl: "https://www.cascadeindoorsports.com",
+        notes: ""
+    },
+    {
+        id: 10,
+        title: "COCC Youth Camps",
+        org: "Central Oregon Community College",
+        category: "Camps & Activities",
+        location: "Local",
+        city: "Bend",
+        appType: "online",
+        needs: ["camps"],
+        diagnosis: ["all"],
+        description: "Wide variety of youth day camps through COCC's community education program: arts, science, sports, and more.",
+        url: "https://www.cocc.edu/departments/community-learning/youth-camps.aspx",
+        applyUrl: "https://www.cocc.edu/departments/community-learning/youth-camps.aspx",
+        notes: ""
+    },
+    {
+        id: 11,
+        title: "Camp Baldwin (Scouting America)",
+        org: "Cascade Pacific Council – Scouting America",
+        category: "Camps & Activities",
+        location: "Oregon",
+        appType: "online",
+        needs: ["camps"],
+        diagnosis: ["all"],
+        description: "Traditional residential camp program. Scholarships available. Located in the Mt. Hood area.",
+        url: "https://www.campbaldwin.org",
+        applyUrl: "https://www.campbaldwin.org",
+        notes: ""
+    },
+    {
+        id: 12,
+        title: "Cascades Camp & Conference Center",
+        org: "Cascades Camp",
+        category: "Camps & Activities",
+        location: "Oregon",
+        appType: "online",
+        needs: ["camps"],
+        diagnosis: ["all"],
+        description: "Christian-based youth camp with financial assistance available for qualifying families.",
+        url: "https://cascadescamp.org",
+        applyUrl: "https://cascadescamp.org",
+        notes: ""
+    },
+    {
+        id: 13,
+        title: "Kids Bowl Free – Lava Lanes Bend",
+        org: "Lava Lanes / KidsBowlFree.com",
+        category: "Camps & Activities",
+        location: "Local",
+        city: "Bend",
+        appType: "noapp",
+        needs: ["camps"],
+        diagnosis: ["all"],
+        description: "Free bowling for kids all summer long at Lava Lanes. Register at KidsBowlFree.com. No income requirement.",
+        url: "https://www.kidsbowlfree.com",
+        applyUrl: "https://www.kidsbowlfree.com",
+        notes: "No application needed. Just register online for free games each day."
+    },
+    // ─── FINANCIAL / GRANTS ──────────────────────────────────────
+    {
+        id: 14,
+        title: "Mesa Angels – Financial Request",
+        org: "Mesa Angels",
+        category: "Financial",
+        location: "National",
+        appType: "online",
+        needs: ["financial"],
+        diagnosis: ["all"],
+        description: "Financial assistance for families of children with medical needs. Apply online for help with specific expenses.",
+        url: "https://mesaangels.org",
+        applyUrl: "https://mesaangels.org/request",
+        notes: ""
+    },
+    {
+        id: 15,
+        title: "Medical Financial Aid Program (SupportNow)",
+        org: "Connect – Powered by SupportNow",
+        category: "Financial",
+        location: "National",
+        appType: "online",
+        needs: ["financial"],
+        diagnosis: ["all"],
+        description: "Medical financial aid for qualifying families. Helps cover medical bills, therapies, and related costs.",
+        url: "https://www.supportnow.org",
+        applyUrl: "https://www.supportnow.org",
+        notes: ""
+    },
+    {
+        id: 16,
+        title: "Cherished Creations Application",
+        org: "Cherished Creations",
+        category: "Financial",
+        location: "National",
+        appType: "online",
+        needs: ["financial", "seasonal"],
+        diagnosis: ["all"],
+        description: "Provides financial support and special experiences for children with life-limiting illnesses.",
+        url: "https://cherishedcreations.org",
+        applyUrl: "https://cherishedcreations.org",
+        notes: ""
+    },
+    {
+        id: 17,
+        title: "Miracles for Kids – Basic Needs",
+        org: "Miracles for Kids",
+        category: "Food & Shelter",
+        location: "National",
+        appType: "online",
+        needs: ["food", "financial"],
+        diagnosis: ["all"],
+        description: "Provides food, shelter, and basic needs support for families of children with life-threatening illnesses.",
+        url: "https://miraclesforkids.org",
+        applyUrl: "https://miraclesforkids.org",
+        notes: ""
+    },
+    // ─── COMMUNITY GIVING / LOCAL ────────────────────────────────
+    {
+        id: 18,
+        title: "Oregon Community Foundation – Local Impact Grants",
+        org: "Oregon Community Foundation",
+        category: "Community Giving",
+        location: "Oregon",
+        appType: "online",
+        needs: ["community", "financial"],
+        diagnosis: ["all"],
+        description: "Grants supporting Oregon nonprofits and individuals through local giving programs. Check the OCF website for current grant cycles.",
+        url: "https://oregoncf.org/grants-scholarships/grants/local-impact/",
+        applyUrl: "https://oregoncf.org/grants-scholarships/grants/local-impact/",
+        notes: ""
+    },
+    {
+        id: 19,
+        title: "OCF 2025 Community Grants Program",
+        org: "Oregon Community Foundation",
+        category: "Community Giving",
+        location: "Oregon",
+        appType: "online",
+        needs: ["community", "financial"],
+        diagnosis: ["all"],
+        description: "Annual grant program supporting communities across Oregon. Various funding categories available.",
+        url: "https://oregoncf.org",
+        applyUrl: "https://oregoncf.org",
+        notes: ""
+    },
+    {
+        id: 20,
+        title: "PacifiCorp Foundation Community Grants",
+        org: "PacifiCorp Foundation",
+        category: "Community Giving",
+        location: "Oregon",
+        appType: "online",
+        needs: ["community", "financial"],
+        diagnosis: ["all"],
+        description: "Grants for nonprofits in PacifiCorp service areas including Central Oregon.",
+        url: "https://www.pacificorp.com/about/giving.html",
+        applyUrl: "https://www.pacificorp.com/about/giving.html",
+        notes: "Primarily for organizations, not individuals — ask your Treehouse peer support if they can help route this."
+    },
+    {
+        id: 21,
+        title: "Deschutes County Grant Opportunities",
+        org: "Deschutes County Oregon",
+        category: "Community Giving",
+        location: "Local",
+        city: "Bend",
+        appType: "online",
+        needs: ["community", "financial"],
+        diagnosis: ["all"],
+        description: "Various grant programs administered through Deschutes County for community members and organizations.",
+        url: "https://www.deschutes.org/grants",
+        applyUrl: "https://www.deschutes.org/grants",
+        notes: ""
+    },
+    // ─── EQUIPMENT ───────────────────────────────────────────────
+    {
+        id: 22,
+        title: "Blanche Fischer Foundation Grant",
+        org: "Blanche Fischer Foundation",
+        category: "Equipment",
+        location: "Oregon",
+        appType: "pdf",
+        needs: ["equipment", "financial"],
+        diagnosis: ["wheelchair", "other", "all"],
+        description: "Provides funding for adaptive equipment and assistive devices for Oregonians with physical disabilities. Application is a PDF form.",
+        url: "https://blanchefischer.org",
+        applyUrl: "https://blanchefischer.org/grant-application/",
+        notes: "PDF application. Our peer support team can help fill this out.",
+        highlighted: true
+    },
+    {
+        id: 23,
+        title: "Oey's Friends Too",
+        org: "Oey's Friends Too",
+        category: "Equipment",
+        location: "National",
+        appType: "online",
+        needs: ["equipment"],
+        diagnosis: ["all"],
+        description: "Provides adaptive equipment, mobility aids, and other resources for children with disabilities.",
+        url: "https://www.oeysfriendstoo.org",
+        applyUrl: "https://www.oeysfriendstoo.org",
+        notes: ""
+    },
+    {
+        id: 24,
+        title: "Lion's Hope Grant",
+        org: "Lions Clubs International",
+        category: "Equipment",
+        location: "Local",
+        appType: "online",
+        needs: ["equipment", "financial"],
+        diagnosis: ["all"],
+        description: "Lions Club grants for individuals needing assistive devices, vision care, hearing aids, and other equipment.",
+        url: "https://www.lionsclubs.org",
+        applyUrl: "https://www.lionsclubs.org",
+        notes: "Contact your local Central Oregon Lions Club chapter."
+    },
+    {
+        id: 25,
+        title: "Adaptive Mall Pool Sign-Up",
+        org: "Adaptive Mall",
+        category: "Equipment",
+        location: "National",
+        appType: "online",
+        needs: ["equipment"],
+        diagnosis: ["wheelchair", "all"],
+        description: "Equipment loan and adaptive gear program. Sign up through Adaptive Mall.",
+        url: "https://www.adaptivemall.com",
+        applyUrl: "https://www.adaptivemall.com",
+        notes: ""
+    },
+    // ─── VEHICLE & HOME MODS ─────────────────────────────────────
+    {
+        id: 26,
+        title: "Wheels of Happiness – Vehicle Modifications",
+        org: "Wheels of Happiness Foundation",
+        category: "Vehicle & Home",
+        location: "National",
+        appType: "online",
+        needs: ["vehicle", "financial"],
+        diagnosis: ["wheelchair", "all"],
+        description: "Provides funding to help families of children with physical disabilities obtain accessible vehicles or wheelchair-accessible van modifications.",
+        url: "https://wheelsofhappiness.org",
+        applyUrl: "https://wheelsofhappiness.org/contact-us",
+        notes: ""
+    },
+    {
+        id: 27,
+        title: "Victoria's Victory Foundation – Vehicle & Home Mods",
+        org: "Victoria's Victory Foundation",
+        category: "Vehicle & Home",
+        location: "National",
+        appType: "online",
+        needs: ["vehicle", "financial"],
+        diagnosis: ["all"],
+        description: "Scholarship program for vehicle and home modifications for children with disabilities. Applications accepted on a rolling basis.",
+        url: "https://victorysfoundation.org",
+        applyUrl: "https://victorysfoundation.org/scholarship-application",
+        notes: ""
+    },
+    // ─── SEASONAL ────────────────────────────────────────────────
+    {
+        id: 28,
+        title: "Ragan's Hope – Holiday & Community Support",
+        org: "Ragan's Hope",
+        category: "Seasonal",
+        location: "National",
+        appType: "online",
+        needs: ["seasonal", "financial"],
+        diagnosis: ["all"],
+        description: "Helps parents and communities lift up children in need. Holiday toy drives and year-round community support.",
+        url: "https://raganshope.org",
+        applyUrl: "https://raganshope.org",
+        notes: ""
+    },
+    {
+        id: 29,
+        title: "Holiday Adaptive Toys – Arya Foundation",
+        org: "Arya Foundation",
+        category: "Seasonal",
+        location: "National",
+        appType: "online",
+        needs: ["seasonal"],
+        diagnosis: ["all"],
+        description: "Provides adaptive and sensory-friendly holiday toys for children with disabilities.",
+        url: "https://aryafoundation.org",
+        applyUrl: "https://aryafoundation.org",
+        notes: ""
+    },
+    // ─── SPORTS & WISHES ─────────────────────────────────────────
+    {
+        id: 30,
+        title: "The Granted Wish Foundation",
+        org: "Granted Wish Foundation",
+        category: "Sports & Wishes",
+        location: "National",
+        appType: "online",
+        needs: ["sports"],
+        diagnosis: ["all"],
+        description: "Online wish applications for children with serious illnesses — sports experiences, celebrity meetings, and other special experiences.",
+        url: "https://thegrantedwishfoundation.org",
+        applyUrl: "https://thegrantedwishfoundation.org/online-wish-application",
+        notes: ""
+    },
+    // ─── CONDITION-SPECIFIC: BEHAVIOR ────────────────────────────
+    {
+        id: 31,
+        title: "Think:Kids – Collaborative Problem Solving",
+        org: "Think:Kids (Massachusetts General Hospital)",
+        category: "Condition-Specific",
+        location: "National",
+        appType: "noapp",
+        needs: ["financial", "community"],
+        diagnosis: ["behavior", "autism", "other"],
+        description: "Evidence-based resources and training for families and professionals working with kids with behavioral challenges. Free resources, webinars, and training materials.",
+        url: "https://thinkkids.org",
+        applyUrl: "https://thinkkids.org",
+        notes: "Free resources available — no application needed."
+    },
+    // ─── CONDITION-SPECIFIC: EPILEPSY ────────────────────────────
+    {
+        id: 32,
+        title: "Epilepsy Resources – Eric & Co.",
+        org: "Eric & Co.",
+        category: "Condition-Specific",
+        location: "National",
+        appType: "online",
+        needs: ["financial", "community"],
+        diagnosis: ["epilepsy"],
+        description: "Curated resources specifically for families affected by epilepsy — financial assistance, community connections, and advocacy tools.",
+        url: "https://ericandco.org",
+        applyUrl: "https://ericandco.org",
+        notes: ""
+    },
+    {
+        id: 33,
+        title: "The Assistance Fund – Epilepsy",
+        org: "The Assistance Fund",
+        category: "Condition-Specific",
+        location: "National",
+        appType: "online",
+        needs: ["financial"],
+        diagnosis: ["epilepsy", "rett"],
+        description: "Disease-specific financial assistance programs for patients with epilepsy and Rett Syndrome, including medication co-pay assistance.",
+        url: "https://tafcares.org",
+        applyUrl: "https://tafcares.org",
+        notes: ""
+    },
+    // ─── CONDITION-SPECIFIC: RETT SYNDROME ───────────────────────
+    {
+        id: 34,
+        title: "Frankie Says Fight Rett",
+        org: "Frankie Says Fight Rett Foundation",
+        category: "Condition-Specific",
+        location: "National",
+        appType: "online",
+        needs: ["financial", "equipment"],
+        diagnosis: ["rett"],
+        description: "Support specifically for families affected by Rett Syndrome — grants, equipment, and community resources.",
+        url: "https://www.frankiesaysfightrett.org",
+        applyUrl: "https://www.frankiesaysfightrett.org",
+        notes: "",
+        highlighted: false
+    },
+    // ─── MUSIC SPECIFIC ──────────────────────────────────────────
+    {
+        id: 35,
+        title: "Music Movement Grant",
+        org: "Music Movement",
+        category: "Condition-Specific",
+        location: "National",
+        appType: "online",
+        needs: ["financial", "camps"],
+        diagnosis: ["all"],
+        description: "Grants to bring music education and music therapy to children who need it most.",
+        url: "https://musicmovement.org",
+        applyUrl: "https://musicmovement.org/grant-application",
+        notes: ""
+    },
+    // ─── ACCESSIBILITY ────────────────────────────────────────────
+    {
+        id: 36,
+        title: "Curb Free with Cory Lee – Oregon Accessibility",
+        org: "Curb Free with Cory Lee",
+        category: "Accessibility",
+        location: "National",
+        appType: "noapp",
+        needs: ["vehicle", "community"],
+        diagnosis: ["wheelchair", "all"],
+        description: "Written by a wheelchair user, this site documents wheelchair-accessible travel destinations and places — particularly in Oregon. Great resource for families planning outings.",
+        url: "https://curbfreewithcorylee.com",
+        applyUrl: "https://curbfreewithcorylee.com",
+        notes: "No application — just a helpful free resource."
+    }
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let familyProfile = {
+    age: null,
+    city: null,
+    needs: [],
+    diagnosis: null
+};
+
+let activeResources = [];
+
+// ============================================================
+// INTAKE
+// ============================================================
+function toggleCheck(item) {
+    item.classList.toggle('checked');
+    const cb = item.querySelector('input[type="checkbox"]');
+    cb.checked = !cb.checked;
+}
+
+function runSearch() {
+    const age = parseInt(document.getElementById('childAge').value) || null;
+    const city = document.getElementById('userCity').value || null;
+    const diagnosis = document.getElementById('diagnosisType').value || null;
+
+    const checkedBoxes = document.querySelectorAll('#needsCheckboxes .checked input');
+    const needs = Array.from(checkedBoxes).map(cb => cb.value);
+
+    familyProfile = { age, city, needs, diagnosis };
+
+    // Scroll / transition
+    document.getElementById('intakeCard').style.opacity = '0.5';
+    setTimeout(() => {
+        document.getElementById('heroSection') && document.getElementById('heroSection').scrollIntoView();
+    }, 100);
+
+    buildProfileBar();
+    computeMatches();
+    document.getElementById('mainResults').style.display = 'block';
+    document.getElementById('profileBar').style.display = 'flex';
+
+    // Update step pills
+    document.getElementById('pill-1').classList.remove('active');
+    document.getElementById('pill-1').classList.add('done');
+    document.getElementById('pill-2').classList.remove('future');
+    document.getElementById('pill-2').classList.add('active');
+
+    document.getElementById('mainResults').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function resetSearch() {
+    familyProfile = { age: null, city: null, needs: [], diagnosis: null };
+    document.getElementById('mainResults').style.display = 'none';
+    document.getElementById('profileBar').style.display = 'none';
+    document.getElementById('intakeCard').style.opacity = '1';
+
+    // Reset pills
+    document.getElementById('pill-1').classList.add('active');
+    document.getElementById('pill-1').classList.remove('done');
+    document.getElementById('pill-2').classList.add('future');
+    document.getElementById('pill-2').classList.remove('active');
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function buildProfileBar() {
+    const chips = [];
+    if (familyProfile.age) chips.push(`Age ${familyProfile.age}`);
+    if (familyProfile.city) chips.push(`📍 ${familyProfile.city}`);
+    if (familyProfile.needs.length) {
+        const labels = {
+            financial:'💰 Financial', camps:'🏕️ Camps', equipment:'♿ Equipment',
+            vehicle:'🚐 Vehicle/Home', food:'🍎 Food/Shelter', community:'🤝 Community',
+            seasonal:'🎁 Seasonal', sports:'⭐ Sports/Wishes'
+        };
+        familyProfile.needs.forEach(n => chips.push(labels[n] || n));
+    }
+    if (familyProfile.diagnosis && familyProfile.diagnosis !== '') {
+        const dLabels = { behavior:'Behavioral', epilepsy:'Epilepsy', rett:'Rett Syndrome', wheelchair:'Wheelchair User', autism:'Autism', other:'Other Diagnosis' };
+        chips.push('🩺 ' + (dLabels[familyProfile.diagnosis] || familyProfile.diagnosis));
+    }
+
+    document.getElementById('profileChips').innerHTML = chips.map(c =>
+        `<span class="chip">${c}</span>`
+    ).join('');
+}
+
+// ============================================================
+// MATCHING
+// ============================================================
+function computeMatches() {
+    const { needs, diagnosis, city } = familyProfile;
+
+    activeResources = RESOURCES.map(r => {
+        let score = 0;
+
+        // Needs match
+        if (needs.length === 0) {
+            score += 1;
+        } else {
+            needs.forEach(n => { if (r.needs.includes(n)) score += 3; });
+        }
+
+        // Diagnosis match
+        if (diagnosis && r.diagnosis.length > 0) {
+            if (r.diagnosis.includes('all') || r.diagnosis.includes(diagnosis)) score += 2;
+        } else {
+            score += 1;
+        }
+
+        // Location bonus
+        if (city && r.city === city) score += 2;
+        if (r.location === 'Local') score += 1;
+
+        if (r.highlighted) score += 1;
+
+        return { ...r, score };
+    });
+
+    // Sort by score
+    activeResources.sort((a, b) => b.score - a.score);
+
+    filterResults();
+}
+
+// ============================================================
+// FILTERING + DISPLAY
+// ============================================================
+function filterResults() {
+    const catF = document.getElementById('filterCategory').value;
+    const locF = document.getElementById('filterLocation').value;
+    const appF = document.getElementById('filterApp').value;
+    const kw = document.getElementById('filterSearch').value.toLowerCase();
+
+    let filtered = activeResources.filter(r => {
+        if (catF && r.category !== catF) return false;
+        if (locF && r.location !== locF) return false;
+        if (appF && r.appType !== appF) return false;
+        if (kw && !r.title.toLowerCase().includes(kw) && !r.description.toLowerCase().includes(kw) && !r.org.toLowerCase().includes(kw)) return false;
+        return true;
+    });
+
+    document.getElementById('resultCount').textContent = `${filtered.length} found`;
+
+    // Group by category
+    const cats = {};
+    filtered.forEach(r => {
+        if (!cats[r.category]) cats[r.category] = [];
+        cats[r.category].push(r);
+    });
+
+    const catMeta = {
+        'Financial': { icon: '💰', order: 1 },
+        'Camps & Activities': { icon: '🏕️', order: 2 },
+        'Equipment': { icon: '♿', order: 3 },
+        'Vehicle & Home': { icon: '🚐', order: 4 },
+        'Food & Shelter': { icon: '🍎', order: 5 },
+        'Community Giving': { icon: '🤝', order: 6 },
+        'Seasonal': { icon: '🎁', order: 7 },
+        'Condition-Specific': { icon: '🩺', order: 8 },
+        'Sports & Wishes': { icon: '⭐', order: 9 },
+        'Accessibility': { icon: '🗺️', order: 10 }
+    };
+
+    const sortedCats = Object.keys(cats).sort((a, b) =>
+        (catMeta[a]?.order || 99) - (catMeta[b]?.order || 99)
+    );
+
+    const container = document.getElementById('resultsContainer');
+
+    if (filtered.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">🔍</div>
+                <h3>No resources match your filters</h3>
+                <p>Try removing a filter or broadening your search. Our peer support team can also help you find additional options.</p>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = sortedCats.map((cat, idx) => `
+        <div class="category-section animate-in" style="animation-delay: ${idx * 0.05}s">
+            <div class="category-header">
+                <span class="cat-icon">${catMeta[cat]?.icon || '📋'}</span>
+                <h3>${cat}</h3>
+                <span class="cat-count">${cats[cat].length}</span>
+            </div>
+            <div class="resource-grid">
+                ${cats[cat].map(r => renderCard(r)).join('')}
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderCard(r) {
+    const locBadge = r.location === 'Local' ? `<span class="badge badge-local">📍 Local</span>` :
+                     r.location === 'Oregon' ? `<span class="badge badge-national" style="background:#dbeafe;color:#1e40af;">🌲 Oregon</span>` :
+                     `<span class="badge badge-national">🌐 National</span>`;
+
+    const appBadge = r.appType === 'noapp' ? `<span class="badge badge-noapp">✓ No Application</span>` :
+                     r.appType === 'pdf' ? `<span class="badge badge-deadline">📄 PDF Form</span>` : '';
+
+    const highlightStyle = r.highlighted ? 'highlighted' : '';
+
+    const applyLabel = r.appType === 'noapp' ? 'Visit Site →' :
+                       r.appType === 'pdf' ? '📄 Get Application' : 'Apply Online →';
+
+    return `
+        <div class="resource-card ${highlightStyle}" onclick="openModal(${r.id})">
+            <div class="card-top">
+                <div class="card-title">${r.title}</div>
+            </div>
+            <div class="card-badges">
+                ${locBadge}
+                ${appBadge}
+                ${r.highlighted ? `<span class="badge badge-match">⭐ Top Match</span>` : ''}
+            </div>
+            <div class="card-desc">${r.org}</div>
+            <div class="card-desc">${r.description.length > 120 ? r.description.slice(0, 120) + '…' : r.description}</div>
+            <div class="card-actions">
+                <a href="${r.applyUrl}" target="_blank" class="apply-btn ${r.appType === 'noapp' ? '' : 'sun'}" onclick="event.stopPropagation()">${applyLabel}</a>
+                <span class="card-link" onclick="event.stopPropagation(); openModal(${r.id})">More info</span>
+            </div>
+        </div>
+    `;
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function openModal(id) {
+    const r = RESOURCES.find(x => x.id === id);
+    if (!r) return;
+
+    document.getElementById('modalTitle').textContent = r.title;
+
+    document.getElementById('modalBody').innerHTML = `
+        <div class="detail-row"><span class="dl">Organization</span><span class="dv">${r.org}</span></div>
+        <div class="detail-row"><span class="dl">Category</span><span class="dv">${r.category}</span></div>
+        <div class="detail-row"><span class="dl">Location</span><span class="dv">${r.location}${r.city ? ' — ' + r.city : ''}</span></div>
+        <div class="detail-row"><span class="dl">Application</span><span class="dv">${r.appType === 'pdf' ? '📄 PDF / Paper Form' : r.appType === 'noapp' ? '✓ No application needed' : '💻 Online Application'}</span></div>
+        <p>${r.description}</p>
+        ${r.notes ? `<div style="background:var(--sky); padding: 14px 16px; border-radius: 10px; font-size: 0.9em; color: var(--forest); border-left: 4px solid var(--leaf);"><strong>💡 Note:</strong> ${r.notes}</div>` : ''}
+    `;
+
+    document.getElementById('modalFooter').innerHTML = `
+        <a href="${r.applyUrl}" target="_blank" class="btn btn-sun">
+            ${r.appType === 'noapp' ? '🌐 Visit Site' : r.appType === 'pdf' ? '📄 Get PDF Application' : '📝 Apply Now'}
+        </a>
+        <a href="${r.url}" target="_blank" class="btn btn-ghost">Learn More</a>
+        <button class="btn btn-primary" onclick="requestHelp('${r.title.replace(/'/g, "\\'")}')">
+            💬 Help Me Apply
+        </button>
+    `;
+
+    document.getElementById('modalBackdrop').classList.add('open');
+}
+
+function closeModal(e) {
+    if (e.target === document.getElementById('modalBackdrop')) {
+        document.getElementById('modalBackdrop').classList.remove('open');
+    }
+}
+
+function requestHelp(resourceName) {
+    document.getElementById('modalBackdrop').classList.remove('open');
+    alert(`A peer support request for "${resourceName}" has been noted.\n\nIn the full version, this will notify your peer support specialist and pre-fill the application with your family's information.\n\nFor now, please call or text Treehouse at your usual number to get started.`);
+}
+
+// ============================================================
+// ON LOAD — show all resources by default if no search yet
+// ============================================================
+window.onload = function() {
+    // Pre-populate with all resources visible (no filters)
+    // This allows browsing before completing intake
+};
+</script>
+</body>
+</html>
