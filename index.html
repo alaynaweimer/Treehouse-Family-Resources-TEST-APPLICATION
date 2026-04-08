@@ -916,6 +916,9 @@ const CONFIG = {
     // 2. Your Google Sheet ID (from the URL)
     //    Sheet columns: name | org | category | location | city | appType | needs (comma list)
     //    diagnosis | ageMin | ageMax | incomeLimit | deadline | description | url | applyUrl | notes
+    // Web App URL — paste here after deploying the Apps Script Web App
+    // Sheet ID below is kept as fallback only during testing
+    webapp_url: 'https://script.google.com/macros/s/AKfycbzn-142MClecFgiZA2tUk7OfI2IisGNnpZrNGDjpB7Q4PZ4lNbEhufWZJCQrQzJOIyDtg/exec',
     sheet_id: '1EgPIxuTIOtEgYsFvKRiQ31TM2jxYECYt3Rn2aQp8_jA',
     sheet_name: 'Sheet1',
 
@@ -986,6 +989,25 @@ let currentResourceId = null;
 // GOOGLE SHEETS LOADER
 // ══════════════════════════════════════════════
 async function loadFromSheets() {
+
+    // ── SECURE PATH: use Web App (Sheet stays private) ──────
+    if (CONFIG.webapp_url && CONFIG.webapp_url !== 'YOUR_WEBAPP_URL') {
+        try {
+            const res  = await fetch(CONFIG.webapp_url);
+            const data = await res.json();
+            if (data.resources && data.resources.length > 0) {
+                RESOURCES = data.resources;
+                console.log(`Loaded ${RESOURCES.length} live resources from secure Web App`);
+                return;
+            }
+        } catch(e) {
+            console.warn('Web App unavailable — trying fallback', e);
+        }
+    }
+
+    // ── FALLBACK: direct Sheet read (testing only) ───────────
+    // Once Web App is deployed and webapp_url is set above,
+    // this fallback will never be used.
     if (!CONFIG.sheet_id || CONFIG.sheet_id === 'YOUR_GOOGLE_SHEET_ID') return;
     try {
         const url = `https://docs.google.com/spreadsheets/d/${CONFIG.sheet_id}/gviz/tq?tqx=out:json&sheet=${CONFIG.sheet_name}`;
@@ -994,7 +1016,6 @@ async function loadFromSheets() {
         const json = JSON.parse(text.substr(47).slice(0,-2));
         const rows = json.table.rows;
         if (!rows || rows.length < 2) return;
-        // Row 0 = headers, skip
         RESOURCES = rows.slice(1).map((row, i) => {
             const c = row.c;
             return {
@@ -1018,7 +1039,7 @@ async function loadFromSheets() {
                 highlighted:  (c[16]?.v || '').toLowerCase() === 'yes'
             };
         }).filter(r => r.title);
-        console.log(`Loaded ${RESOURCES.length} resources from Google Sheets`);
+        console.log(`Loaded ${RESOURCES.length} resources (fallback - Sheet public)`);
     } catch(e) {
         console.warn('Could not load from Sheets — using static data', e);
     }
